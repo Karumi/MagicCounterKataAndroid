@@ -1,0 +1,25 @@
+anguage: android
+sudo: required
+jdk:
+  - oraclejdk8
+
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-29.0.2
+    - android-22
+    - android-29
+    - extra-android-support
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - sys-img-armeabi-v7a-android-22
+
+before_script:
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+  - emulator -avd test -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+script:
+  - ./gradlew check
